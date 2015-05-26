@@ -145,6 +145,7 @@ void main()
 	IRQ_enable(IRQ_EVT_RINT1);		// Enables the event
 	IRQ_globalEnable();				// Globally enables interrupts
 
+	DSK6713_LED_toggle(3);	// toggle LED here for diagnostics (init finished)
 	while(1)						// main loop
 	{
 	}
