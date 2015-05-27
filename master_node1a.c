@@ -145,6 +145,7 @@ void main()
 	IRQ_enable(IRQ_EVT_RINT1);		// Enables the event
 	IRQ_globalEnable();				// Globally enables interrupts
 
+	DSK6713_LED_toggle(3);	// toggle LED here for diagnostics (init finished)
 	while(1)						// main loop
 	{
 	}
@@ -255,12 +256,19 @@ interrupt void serialPortRcvISR()
 		}
 	}
 	else if (state==4) { // RESPONSE STATE (play back recording buffer in reverse)
+		if(!ledTriggered)
+				{
+					DSK6713_LED_toggle(1);
+					ledTriggered = 1;
+				}
 		recbufindex--;
 		if (recbufindex>=0) {
 			temp.channel[0] = playback_scale*recbuf[recbufindex];
 		}
 		else
 		{
+			DSK6713_LED_toggle(1);
+			ledTriggered = 0;
 			state = 0;  // go back to searching
 		}
 	}
